@@ -1,5 +1,12 @@
 import queue
 import networkx as nx
+from dataclasses import dataclass, field
+from typing import Any
+
+@dataclass(order=True)
+class PrioritizedItem:
+    priority: int
+    item: Any=field(compare=False)
 
 class Graph:
     """
@@ -22,27 +29,50 @@ class Graph:
         * If there is an end node input and a path does not exist, return None
 
         """
-        q = queue.Queue()
+        if end is not None:
+            q = queue.PriorityQueue()
+        else:
+            q = queue.Queue()
+            
         visited = []
-        frontier = []
+
+        distance = {} # Distance from start node
+        previous = {} # Previous node in path from start node to current node
+
         if len(self.graph.nodes) == 0:
             raise ValueError("Graph is empty")
         if start not in self.graph.nodes:
             raise ValueError("Start node not in graph")
-        q.put(start)
+        
+        # Initialize distance and previous dictionaries
+        for node in self.graph.nodes:
+            distance[node] = float('inf')
+            previous[node] = None
+
+        q.put(PrioritizedItem(0, start)) # Add start node with 0 distance
         visited.append(start)
+        distance[start] = 0
+
         while not q.empty():
-            v = q.get()
+            v = q.get().item # Get node with smallest distance
+
+            if v == end:
+                path = []
+                while v is not None:
+                    path.append(v)
+                    v = previous[v]
+                path.reverse()
+                return path
+            
             n = self.graph.neighbors(v)
             for w in n:
                 if w not in visited:
-                    q.put(w)
-                    frontier.append(w)
-                    if w == end:
-                        visited.append(w)
-                        return visited
-            visited.extend(frontier)
-            frontier.clear()
+                    visited.append(w)
+                    if distance[w] > distance[v] + 1:
+                        distance[w] = distance[v] + 1
+                        previous[w] = v
+                    q.put(PrioritizedItem(distance[w], w))
+        
         if end is None:
             return visited
         else:

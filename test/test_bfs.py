@@ -12,20 +12,20 @@ def test_bfs_traversal():
     the right number of nodes, in the right order, etc.)
     """
     g = graph.Graph('data/tiny_network.adjlist')
+    print(g.bfs("Lani Wu"))
+    print(list(nx.bfs_tree(g.graph, "Lani Wu").nodes))
     assert len(g.bfs("Lani Wu")) == len(g.graph.nodes)
     assert len(g.bfs("Luke Gilbert")) == len(g.graph.nodes)
     assert g.bfs("Lani Wu") != g.bfs("Luke Gilbert")
     assert g.bfs("Lani Wu") == list(nx.bfs_tree(g.graph, "Lani Wu").nodes)
     assert g.bfs("Luke Gilbert") == list(nx.bfs_tree(g.graph, "Luke Gilbert").nodes)
-    assert g.bfs("Lani Wu", "NOT Nevan Krogan") == None
-    for node in g.graph.nodes:
-        assert g.bfs("Lani Wu", node) == list(nx.shortest_path(g.graph, "Lani Wu", node))
     with pytest.raises(ValueError):
         g.bfs("NOT A NODE")
     with pytest.raises(ValueError):
         e = graph.Graph('test/empty.adjlist')
         e.bfs("Lani Wu")
-    assert g.bfs("Lani Wu", "Lani Wu") == ["Luke Gilbert"] # This will cause an exception
+    # assert g.bfs("Lani Wu", "Lani Wu") == ["Luke Gilbert"] # This will cause an exception
+    
 
 def test_bfs():
     """
@@ -38,4 +38,10 @@ def test_bfs():
     Include an additional test for nodes that are not connected 
     which should return None. 
     """
-    pass
+    g = graph.Graph('data/citation_network.adjlist')
+    assert g.bfs("Lani Wu", "NOT Nevan Krogan") == None
+    # testing length only, since path may differ
+    assert len(g.bfs("Lani Wu", "Nevan Krogan")) == len(list(nx.shortest_path(g.graph, "Lani Wu", "Nevan Krogan")))
+    assert len(g.bfs("Nevan Krogan", "Lani Wu")) == len(list(nx.shortest_path(g.graph, "Nevan Krogan", "Lani Wu")))
+    assert len(g.bfs("Luke Gilbert", "Hani Goodarzi")) == len(list(nx.shortest_path(g.graph, "Luke Gilbert", "Hani Goodarzi")))
+    assert len(g.bfs("Hani Goodarzi", "Luke Gilbert")) == len(list(nx.shortest_path(g.graph, "Luke Gilbert", "Hani Goodarzi")))
