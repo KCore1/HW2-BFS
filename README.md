@@ -30,20 +30,7 @@ In test/test_bfs.py:
 
 ## Software Development Assessment
 
-* Write unit tests (in the test_bfs.py file) for your breadth first search
-* Replace these instructions with a brief description of bfs in your forked repo
-	
-* Automate Testing with a [Github Actions](https://docs.github.com/en/actions)
-
-	See blogposts below on helping set up github actions with pytest:
-	
-	* [post 1](https://blog.dennisokeeffe.com/blog/2021-08-08-pytest-with-github-actions)
-	* [post 2](https://mattsegal.dev/pytest-on-github-actions.html)
-	* Add "! [BuildStatus] (https://github.com/ < your-github-username > /HW2-BFS/workflows/HW2-BFS/badge.svg?event=push)" (update link and remove spaces) to the beginning of your readme file
-	* Also refer to previous assignment for more in-depth help with GitHub actions
-
-	Ensure that the github actions complete the following:
-	* runs pytest
+* Breadth-first search (BFS) is a search algorithm that operates on a graph to discover all accessible nodes in the graph. BFS starts from a given node, and iteratively explores the layers that radiate out from that node–it first explores all nodes that are one edge away from the starting node, and then iteratively explores all the nodes one edge away from those nodes. BFS is able to explore all the graph with time complexity $O(V+E)$, where $V$ is the number of vertices and $E$ is the number of edges, and has a space complexity of $O(V^2)$ to store all the vertices and their connections. By recording the node accessed prior to every node in the graph during traversal, BFS can reconstruct the shortest path to a given node where all edges have a "distance" value of 1.
 
 # Getting Started
 To get started you will need to fork this repository onto your own github. You will then work on the code base from your own repo and make changes to it in the form of commits. 
