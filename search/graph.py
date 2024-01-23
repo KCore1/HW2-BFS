@@ -60,11 +60,11 @@ class Graph:
                 path = []
                 while v is not None:
                     path.append(v)
-                    v = previous[v]
+                    v = previous[v] # Reconstruct path to arrive at end node
                 path.reverse()
                 return path
             
-            for w in self.graph.successors(v):
+            for w in self.graph.successors(v): # Add all unvisited neighbors of v to queue
                 if w not in visited:
                     visited.append(w)
                     if distance[w] > distance[v] + 1:
