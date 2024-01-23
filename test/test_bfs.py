@@ -24,7 +24,6 @@ def test_bfs_traversal():
     with pytest.raises(ValueError):
         e = graph.Graph('test/empty.adjlist')
         e.bfs("Lani Wu")
-    # assert g.bfs("Lani Wu", "Lani Wu") == ["Luke Gilbert"] # This will cause an exception
     
 
 def test_bfs():
