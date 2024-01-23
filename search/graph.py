@@ -64,8 +64,7 @@ class Graph:
                 path.reverse()
                 return path
             
-            n = self.graph.neighbors(v)
-            for w in n:
+            for w in self.graph.successors(v):
                 if w not in visited:
                     visited.append(w)
                     if distance[w] > distance[v] + 1:
